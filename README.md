@@ -1,14 +1,29 @@
-# Welcome to your CDK TypeScript project
+MLIT Estate Library Proxy API
 
-This is a blank project for CDK development with TypeScript.
+不動産情報ライブラリを Mapbox / MapLibre GL JS で表示するためのプロキシ API です。
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+Mapbox / Maplibre GL JS でソースを以下のように指定することで、Web地図上に不動産情報ライブラリの地図タイルを表示できます。
 
-## Useful commands
+```
+tiles: ["https://<CloudFrontドメイン>/<不動産ライブラリAPIのパス>/{z}/{x}/{y}.pbf?from=20223&to=20234"]
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+例：不動産価格（取引価格・成約価格）情報のポイントを表示する場合
+tiles: ["https://<CloudFrontドメイン>/ex-api/external/XPT001/{z}/{x}/{y}.pbf?from=20223&to=20234"]
+```
+
+## 開発者向け
+
+
+### 環境構築
+
+```
+$ npm install
+$ npm run save:apikey -- <不動産情報ライブラリのAPIキー>
+```
+
+### デプロイ
+
+```
+$ npm run build
+$ npm run deploy
+```
