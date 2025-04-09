@@ -2,13 +2,14 @@
   "name": "app",
   "version": "0.1.0",
   "bin": {
-    "app": "bin/app.js"
+    "app": "bin/proxy-api.ts"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
+    "deploy": "cdk deploy",
     "save:apikey": "ts-node scripts/store-parameter.ts /reinfolib/api/key"
   },
   "devDependencies": {

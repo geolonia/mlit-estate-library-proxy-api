@@ -11,8 +11,7 @@ if (!parameterName || !parameterValue) {
   process.exit(1);
 }
 
-// SSM クライアントを生成（ここでは東京リージョン "ap-northeast-1" を使用していますが、必要に応じて変更してください）
-const ssm = new AWS.SSM({ region: 'ap-northeast-1' });
+const ssm = new AWS.SSM({ region: 'us-east-1' });
 
 async function storeParameter() {
   const params: AWS.SSM.PutParameterRequest = {

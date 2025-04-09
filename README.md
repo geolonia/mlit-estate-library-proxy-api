@@ -1,4 +1,4 @@
-MLIT Estate Library Proxy API
+# MLIT Estate Library Proxy API
 
 不動産情報ライブラリを Mapbox / MapLibre GL JS で表示するためのプロキシ API です。
 
@@ -19,6 +19,7 @@ tiles: ["https://<CloudFrontドメイン>/ex-api/external/XPT001/{z}/{x}/{y}.pbf
 ```
 $ npm install
 $ npm run save:apikey -- <不動産情報ライブラリのAPIキー>
+$ cdk bootstrap
 ```
 
 ### デプロイ

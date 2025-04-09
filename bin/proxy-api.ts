@@ -4,5 +4,5 @@ import { ProxyApiStack } from '../lib/proxy-api-stack';
 
 const app = new cdk.App();
 new ProxyApiStack(app, 'ProxyApiStack', {
-  env: { region: 'us-east-1' }
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'us-east-1' },
 });
