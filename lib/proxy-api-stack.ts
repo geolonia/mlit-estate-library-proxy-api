@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, Duration } from 'aws-cdk-lib';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
@@ -16,13 +16,6 @@ export class ProxyApiStack extends Stack {
 
     // APIキーを埋め込む
     generateOriginRequestHandler(apiKey);
-
-    // URLを /{z}/{x}/{y}.pbf から z={z}&x={x}&y={y} に書き換え
-    const rewriteRequestFn = new cloudfront.experimental.EdgeFunction(this, 'RewriteFunction', {
-      runtime: lambda.Runtime.NODEJS_22_X,
-      handler: 'edge-handler.handler',
-      code: lambda.Code.fromAsset('lambda'),
-    });
 
     // APIキーを追加
     const originRequestFn = new cloudfront.experimental.EdgeFunction(this, 'OriginRequestFn', {
@@ -41,9 +34,9 @@ export class ProxyApiStack extends Stack {
     // ヘッダーは追加しない。クエリ文字列は全て転送する
     const originRequestPolicy = new cloudfront.OriginRequestPolicy(this, 'FullQueryPolicy', {
       originRequestPolicyName: 'FullQueryPolicy',
-      comment: 'Forward all query strings for API',
+      comment: 'Forward all query strings to origin',
       queryStringBehavior: cloudfront.OriginRequestQueryStringBehavior.all(),
-      headerBehavior: cloudfront.OriginRequestHeaderBehavior.none(), // Lambdaでヘッダー追加するのでOK
+      headerBehavior: cloudfront.OriginRequestHeaderBehavior.allowList('Ocp-Apim-Subscription-Key'),
     });
     
     const distribution = new cloudfront.Distribution(this, 'ProxyDistribution', {
@@ -51,11 +44,8 @@ export class ProxyApiStack extends Stack {
         origin: new origins.HttpOrigin('www.reinfolib.mlit.go.jp', {
           protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
         }),
+        originRequestPolicy,
         edgeLambdas: [
-          {
-            functionVersion: rewriteRequestFn.currentVersion,
-            eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST,
-          },
           {
             functionVersion: originRequestFn.currentVersion,
             eventType: cloudfront.LambdaEdgeEventType.ORIGIN_REQUEST,

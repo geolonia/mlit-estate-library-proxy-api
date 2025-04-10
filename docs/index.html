@@ -36,8 +36,6 @@
         tiles: [
           'https://du6jhqfvlioa4.cloudfront.net/ex-api/external/XPT001/{z}/{x}/{y}.pbf?from=20234&to=20243'
         ],
-        minzoom: 11,
-        maxzoom: 15
       });
 
       // 表示レイヤを追加
@@ -45,10 +43,10 @@
         id: 'real-estate-points',
         type: 'circle',
         source: 'real-estate-price',
-        'source-layer': 'point_in_time_name_ja', // ここはタイル内のレイヤ名に応じて変更
+        'source-layer': 'hits', // ここはタイル内のレイヤ名に応じて変更
         paint: {
-          'circle-radius': 5,
-          'circle-color': '#ff6600',
+          'circle-radius': 10,
+          'circle-color': '#ff0000',
           'circle-stroke-width': 1,
           'circle-stroke-color': '#ffffff'
         }
