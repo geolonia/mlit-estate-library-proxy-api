@@ -15,6 +15,29 @@
       padding: 0;
       margin: 0;
     }
+    
+    .popup-table {
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed
+    }
+
+    .popup-table th,
+    .popup-table td {
+      border: 1px solid #ddd;
+      text-align: left;
+      padding: 8px;
+      overflow-wrap: break-word;
+    }
+
+    .popup-table th {
+      background-color: #f2f2f2;
+    }
+
+    .maplibregl-popup-content {
+      height: 40vh;
+      overflow: auto;
+    }
   </style>
 </head>
 
@@ -50,6 +73,25 @@
           'circle-stroke-width': 1,
           'circle-stroke-color': '#ffffff'
         }
+      });
+
+      map.on("click", "real-estate-points", (e) => {
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const properties = e.features[0].properties;
+
+        let tableHTML = "<table class='popup-table'>";
+        tableHTML += "<tr><th>属性</th><th>値</th></tr>"; // ヘッダー行を追加
+        for (let key in properties) {
+          tableHTML += `<tr><td>${key}</td><td>${properties[key]}</td></tr>`;
+        }
+        tableHTML += "</table>";
+
+        new geolonia.Popup({
+          maxWidth: '300px'
+        })
+          .setLngLat(coordinates)
+          .setHTML(tableHTML)
+          .addTo(map);
       });
     })
 
