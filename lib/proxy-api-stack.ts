@@ -17,6 +17,12 @@ export class ProxyApiStack extends Stack {
     // APIキーを埋め込む
     generateOriginRequestHandler(apiKey);
 
+    const viewerRequestFn = new cloudfront.experimental.EdgeFunction(this, 'ViewerRequestFn', {
+      runtime: lambda.Runtime.NODEJS_22_X,
+      handler: 'edge-handler-viewer.handler',
+      code: lambda.Code.fromAsset('lambda'),
+    });
+
     // APIキーを追加
     const originRequestFn = new cloudfront.experimental.EdgeFunction(this, 'OriginRequestFn', {
       runtime: lambda.Runtime.NODEJS_22_X,
@@ -46,6 +52,10 @@ export class ProxyApiStack extends Stack {
         }),
         originRequestPolicy,
         edgeLambdas: [
+          {
+            functionVersion: viewerRequestFn.currentVersion,
+            eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST,
+          },
           {
             functionVersion: originRequestFn.currentVersion,
             eventType: cloudfront.LambdaEdgeEventType.ORIGIN_REQUEST,
