@@ -3,6 +3,8 @@
 export const handler = async (event: any): Promise<any> => {
   const request = event.Records[0].cf.request;
 
+  console.log('[viewer-request1] incoming querystring:', request);
+
   const regex = /^(\/.*?)(\/(\d+)\/(\d+)\/(\d+)\.pbf)$/;
   const match = request.uri.match(regex);
 
@@ -22,9 +24,7 @@ export const handler = async (event: any): Promise<any> => {
     request.querystring = query.toString();
   }
 
-  request.headers['ocp-apim-subscription-key'] = [
-    { key: 'Ocp-Apim-Subscription-Key', value: '__API_KEY__' } // ← プレースホルダ
-  ];
+  console.log('[viewer-request2] rewrite querystring:', request);
 
   return request;
 };
