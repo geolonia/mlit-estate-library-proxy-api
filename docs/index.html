@@ -49,6 +49,8 @@
       container: 'map',
       center: [139.74135744, 35.65809922], // 日本経緯度原点
       zoom: 14,
+      minzoom: 11,
+      hash: true
     });
 
     map.on('load', () => {
@@ -66,7 +68,8 @@
         id: 'real-estate-points',
         type: 'circle',
         source: 'real-estate-price',
-        'source-layer': 'hits', // ここはタイル内のレイヤ名に応じて変更
+        'source-layer': 'hits',
+        minzoom: 11,
         paint: {
           'circle-radius': 10,
           'circle-color': '#ff0000',
