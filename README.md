@@ -46,7 +46,6 @@ https://du6jhqfvlioa4.cloudfront.net/<不動産ライブラリAPIの任意のパ
 ```
 $ npm install
 $ npm run save:apikey -- <不動産情報ライブラリのAPIキー>
-$ cdk bootstrap
 ```
 
 ### デプロイ
