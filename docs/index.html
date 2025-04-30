@@ -47,9 +47,8 @@
   <script>
     const map = new geolonia.Map({
       container: 'map',
-      center: [139.74135744, 35.65809922],
+      center: [139.74135744, 35.65809922], // 日本経緯度原点
       zoom: 14,
-      minZoom: 13
     });
 
     map.on('load', () => {
@@ -60,7 +59,6 @@
         tiles: [
           'https://du6jhqfvlioa4.cloudfront.net/ex-api/external/XPT001/{z}/{x}/{y}.pbf?from=20234&to=20243'
         ],
-        minzoom: 13
       });
 
       // 表示レイヤを追加
