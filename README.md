@@ -37,7 +37,6 @@ https://du6jhqfvlioa4.cloudfront.net/<不動産ライブラリAPIの任意のパ
 ```
 * ソースレイヤー名は `hits` を指定して下さい。
 * 不動産ライブラリ [API操作説明](https://www.reinfolib.mlit.go.jp/help/apiManual) で解説されている任意のクエリパラメータを指定できます。
-* 不動産ライブラリAPI自体への負荷を考え、ベクトルタイルの minzoomは 13に設定しています
 
 ## 開発者向け
 
