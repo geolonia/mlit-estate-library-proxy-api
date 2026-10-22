@@ -7,7 +7,8 @@ export function generateOriginRequestHandler(apiKey: string) {
   const outputPath = path.join(__dirname, '../lambda.bundle/edge-origin-request.js');
 
   const tsCode = fs.readFileSync(templatePath, 'utf8');
-  const replaced = tsCode.replace('__API_KEY__', apiKey);
+  // 引用符ごと置き換え、キーは JSON の文字列リテラルとして埋め込む
+  const replaced = tsCode.replace("'__API_KEY__'", () => JSON.stringify(apiKey));
 
   // TypeScript を JavaScript に変換
   const transpiled = ts.transpileModule(replaced, {

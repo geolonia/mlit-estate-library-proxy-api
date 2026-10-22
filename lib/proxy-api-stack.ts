@@ -39,11 +39,23 @@ export class ProxyApiStack extends Stack {
       headerBehavior: cloudfront.OriginRequestHeaderBehavior.allowList('Ocp-Apim-Subscription-Key'),
     });
     
+    // クエリ文字列 (from/to 等) をキャッシュキーに含める。TTL は CachingOptimized と同じ
+    const cachePolicy = new cloudfront.CachePolicy(this, 'QueryStringCachePolicy', {
+      comment: 'Include all query strings in the cache key',
+      queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
+      minTtl: Duration.seconds(1),
+      defaultTtl: Duration.days(1),
+      maxTtl: Duration.days(365),
+      enableAcceptEncodingGzip: true,
+      enableAcceptEncodingBrotli: true,
+    });
+
     const distribution = new cloudfront.Distribution(this, 'ProxyDistribution', {
       defaultBehavior: {
         origin: new origins.HttpOrigin('www.reinfolib.mlit.go.jp', {
           protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
         }),
+        cachePolicy,
         originRequestPolicy,
         edgeLambdas: [
           {

@@ -33,10 +33,13 @@ map.addLayer({
 ## 使い方
 
 ```https
-https://du6jhqfvlioa4.cloudfront.net/<不動産ライブラリAPIの任意のパス>/{z}/{x}/{y}.pbf?<任意のクエリパラメータ>
+https://du6jhqfvlioa4.cloudfront.net/ex-api/external/<API ID>/{z}/{x}/{y}.pbf?<クエリパラメータ>
 ```
+* `<API ID>` には不動産情報ライブラリのタイル形式の API（`XPT001` などの `XPT`・`XKT`・`XGT`・`XST` で始まるもの）を指定できます。
+* `{z}` は 9〜15 を指定できます。API ごとの対応範囲は [API操作説明](https://www.reinfolib.mlit.go.jp/help/apiManual) を参照して下さい。
 * ソースレイヤー名は `hits` を指定して下さい。
-* 不動産ライブラリ [API操作説明](https://www.reinfolib.mlit.go.jp/help/apiManual) で解説されている任意のクエリパラメータを指定できます。
+* クエリパラメータには、[API操作説明](https://www.reinfolib.mlit.go.jp/help/apiManual) でその API について解説されている絞り込み用のパラメータ（`XPT001` の `from`、`to` など）を指定できます。`response_format`、`z`、`x`、`y` はプロキシが設定するので指定しないで下さい。
+* タイル形式ではない API（`XIT001`、`XIT002`、`XCT001`）、API操作説明に載っていない API ID、上記以外のパス、その API について解説されていないクエリパラメータには 403 を返します。
 
 ## 開発者向け
 
